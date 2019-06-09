@@ -6,7 +6,7 @@ class import_scan(bpy.types.Operator, ImportHelper):
     bl_idname = "bakemyscan.import_scan"
     bl_label  = "Import"
     bl_options = {"REGISTER", "UNDO"}
-    filter_glob = bpy.props.StringProperty(
+    filter_glob : bpy.props.StringProperty(
         default="*.obj;*.ply;*.stl;*.fbx;*.dae;*.x3d;*.wrl",
         options={'HIDDEN'},
     )
@@ -72,8 +72,8 @@ class import_scan(bpy.types.Operator, ImportHelper):
 
         #Select the new mesh, and make it the active object
         bpy.ops.object.select_all(action='DESELECT')
-        obj.select = True
-        context.scene.objects.active = obj
+        obj.select_set(state = True , view_layer = None)
+        context.view_layer.objects.active= obj
 
         #Zoom on it
         for area in bpy.context.screen.areas:

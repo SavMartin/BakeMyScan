@@ -10,13 +10,13 @@ class export(bpy.types.Operator, ExportHelper):
     bl_options = {"REGISTER", "UNDO"}
 
     filename_ext=".fbx"
-    filter_glob = bpy.props.StringProperty(
+    filter_glob : bpy.props.StringProperty(
         default="*.fbx;*.obj;*.ply",
         options={'HIDDEN'},
     )
 
-    fmt      = bpy.props.EnumProperty(items= ( ('PNG', 'PNG', 'PNG'), ("JPEG", "JPEG", "JPEG")) , name="fmt", description="Image format", default="JPEG")
-    compress = bpy.props.BoolProperty("compress", name="compress", description="Compress into a .zip", default=False)
+    fmt      : bpy.props.EnumProperty(items= ( ('PNG', 'PNG', 'PNG'), ("JPEG", "JPEG", "JPEG")) , name="fmt", description="Image format", default="JPEG")
+    compress : bpy.props.BoolProperty("compress", name="compress", description="Compress into a .zip", default=False)
 
     @classmethod
     def poll(self, context):

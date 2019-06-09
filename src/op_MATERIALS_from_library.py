@@ -13,7 +13,7 @@ class material_from_library(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
     bl_property = "enum"
 
-    enum = bpy.props.EnumProperty(
+    enum : bpy.props.EnumProperty(
         name="PBR textures",
         description="",
         items=get_materials_list_callback
@@ -55,7 +55,7 @@ class node_from_library(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
     bl_property = "enum"
 
-    enum = bpy.props.EnumProperty(
+    enum : bpy.props.EnumProperty(
         name="PBR textures",
         description="",
         items=get_materials_list_callback

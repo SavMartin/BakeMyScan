@@ -9,11 +9,11 @@ import mathutils
 
 from . import fn_msh
 
-class import_mesh(bpy.types.Operator, ImportHelper):
+class BAKE_OT_import_mesh(bpy.types.Operator, ImportHelper):
     """Import a Mesh file"""
     bl_idname = "bakemyscan.import_mesh"
     bl_label  = "Imports a .mesh file"
-    filter_glob = bpy.props.StringProperty(
+    filter_glob : bpy.props.StringProperty(
         default="*.mesh",
         options={'HIDDEN'},
     )
@@ -180,7 +180,7 @@ def import_func(self, context):
     self.layout.operator("bakemyscan.import_mesh", text="MESH (.mesh)")
 
 def register():
-    bpy.utils.register_class(import_mesh)
+    bpy.utils.register_class(BAKE_OT_import_mesh)
 
 def unregister():
-    bpy.utils.unregister_class(import_mesh)
+    bpy.utils.unregister_class(BAKE_OT_import_mesh)

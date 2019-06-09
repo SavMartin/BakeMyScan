@@ -9,7 +9,7 @@ class create_library(bpy.types.Operator):
     bl_label  = "List available materials"
     bl_options = {"REGISTER", "UNDO"}
 
-    filepath = bpy.props.StringProperty(
+    filepath : bpy.props.StringProperty(
         name="filepath",
         description="Filepath used for importing the file",
         maxlen=1024,

@@ -3,10 +3,10 @@ rm ~/bakemyscan.xml
 rm -rf ~/BakeMyScan_bk
 
 #Navigate to the addon directory
-cd ~/.config/blender/2.79/scripts/addons/
+cd ~/.config/blender/2.80/scripts/addons/
 
 #Theme
-cp ~/.config/blender/2.79/scripts/presets/interface_theme/bakemyscan.xml ~/bakemyscan.xml
+cp ~/.config/blender/2.80/scripts/presets/interface_theme/bakemyscan.xml ~/bakemyscan.xml
 #Backup
 cp -r BakeMyScan/ ~/BakeMyScan_bk
 #Zip the meaningful files

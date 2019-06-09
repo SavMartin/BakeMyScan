@@ -10,11 +10,11 @@ class assign_texture(bpy.types.Operator, ImportHelper):
     bl_label  = "Assign PBR textures to a material"
     bl_options = {"REGISTER", "UNDO"}
 
-    filter_glob = bpy.props.StringProperty(
+    filter_glob : bpy.props.StringProperty(
         default="*.png;*.jpg;*.jpeg;*.bmp;*.tif;*.tiff;*.exr",
         options={'HIDDEN'},
     )
-    slot = bpy.props.EnumProperty(
+    slot : bpy.props.EnumProperty(
         items= (
             ('albedo', 'albedo', 'albedo'),
             ("normal", "normal", "normal"),
@@ -33,7 +33,7 @@ class assign_texture(bpy.types.Operator, ImportHelper):
         default="albedo"
     )
 
-    byname = bpy.props.BoolProperty(name="byname", description="pass images by name instead of files", default=False)
+    byname : bpy.props.BoolProperty(name="byname", description="pass images by name instead of files", default=False)
 
     @classmethod
     def poll(self, context):

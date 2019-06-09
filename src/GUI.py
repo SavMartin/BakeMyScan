@@ -8,7 +8,8 @@ from . import fn_nodes
 class BakeMyScanPanel(bpy.types.Panel):
     """A base class for panels to inherit"""
     bl_space_type  = "VIEW_3D"
-    bl_region_type = "TOOLS"
+    bl_region_type = "UI"
+    bl_label       = "BakeMyScan"
     bl_category    = "BakeMyScan"
     bl_options     = {"DEFAULT_CLOSED"}
     bl_context     = "objectmode"
@@ -65,54 +66,54 @@ class BakeMyScanProperties(bpy.types.PropertyGroup):
         return None
 
     #Delighting properties
-    delight = bpy.props.BoolProperty(description="Delighting", default=False, update=toggle_delight)
-    delight_invert_factor = bpy.props.FloatProperty(description="Inversion factor for delighting", default=0.3, min=0.,max=1., update=update_delight_invert)
-    delight_ao_factor = bpy.props.FloatProperty(description="Ambient Occlusion factor for delighting", default=0.15, min=0.,max=1., update=update_delight_ao)
+    delight : bpy.props.BoolProperty(description="Delighting", default=False, update=toggle_delight)
+    delight_invert_factor : bpy.props.FloatProperty(description="Inversion factor for delighting", default=0.3, min=0.,max=1., update=update_delight_invert)
+    delight_ao_factor : bpy.props.FloatProperty(description="Ambient Occlusion factor for delighting", default=0.15, min=0.,max=1., update=update_delight_ao)
     #General material properties
-    ao_factor = bpy.props.FloatProperty(description="Ambient Occlusion factor", default=0.5, min=0.,max=1., update=update_ao)
-    uv_scale = bpy.props.FloatProperty(description="UV scale", default=1, min=0.,max=1000., update=update_UV_scale)
-    height = bpy.props.FloatProperty(description="Height", default=0.005, min=-1.,max=1., update=update_height)
+    ao_factor : bpy.props.FloatProperty(description="Ambient Occlusion factor", default=0.5, min=0.,max=1., update=update_ao)
+    uv_scale : bpy.props.FloatProperty(description="UV scale", default=1, min=0.,max=1000., update=update_UV_scale)
+    height : bpy.props.FloatProperty(description="Height", default=0.005, min=-1.,max=1., update=update_height)
     #HDRI properties
-    intensity =  bpy.props.FloatProperty(description="HDRI intensity", default=1, min=0., max=10000., update=setworldintensity)
-    visibility = bpy.props.BoolProperty(description="HDRI visibility", default=False, update=toggle_hdri)
-    rotation =  bpy.props.FloatProperty(description="HDRI rotation", default=0., min=-1., max=1., update=rotate_hdri)
+    intensity :  bpy.props.FloatProperty(description="HDRI intensity", default=1, min=0., max=10000., update=setworldintensity)
+    visibility : bpy.props.BoolProperty(description="HDRI visibility", default=False, update=toggle_hdri)
+    rotation :  bpy.props.FloatProperty(description="HDRI rotation", default=0., min=-1., max=1., update=rotate_hdri)
     #Scanning images
-    imagesdirectory = bpy.props.StringProperty(description="Filepath used for importing the file",subtype='DIR_PATH', update=update_scan_images)
+    imagesdirectory : bpy.props.StringProperty(description="Filepath used for importing the file",subtype='DIR_PATH', update=update_scan_images)
     #PBR library
-    texturepath =  bpy.props.StringProperty(description="Filepath used for importing the file",subtype='DIR_PATH',update=create_PBR_library)
+    texturepath :  bpy.props.StringProperty(description="Filepath used for importing the file",subtype='DIR_PATH',update=create_PBR_library)
 
-class ScanPanel(BakeMyScanPanel):
+class BAKE_PT_ScanPanel(BakeMyScanPanel):
     """A panel for the scanning methods"""
     bl_label       = "Structure from Motion"
     def draw(self, context):
         box = self.layout
-        box.label("Images directory")
+        box.label(text = "Images directory")
         box.prop(context.scene.bakemyscan_properties, "imagesdirectory", text="")
-        box.label("Structure from motion")
+        box.label(text = "Structure from motion")
         #box.operator("bakemyscan.colmap_auto", icon="CAMERA_DATA", text="Colmap auto")
         box.operator("bakemyscan.colmap_openmvs", icon="CAMERA_DATA", text="Colmap OpenMVS Meshlab")
 
-class PipelinePanel(BakeMyScanPanel):
+class BAKE_PT_PipelinePanel(BakeMyScanPanel):
     bl_label = "Model optimization"
     def draw(self, context):
         self.layout.operator("bakemyscan.clean_object", icon="PARTICLEMODE", text="Pre-process")
 
-        self.layout.label("Retopology")
+        self.layout.label(text = "Retopology")
         self.layout.operator("bakemyscan.full_pipeline", icon="MOD_DECIM", text="Remesh")
         self.layout.operator("bakemyscan.unwrap",            icon="GROUP_UVS",  text="Unwrap")
 
-        self.layout.label("Post-process")
+        self.layout.label(text = "Post-process")
 
         self.layout.operator("bakemyscan.symetrize",         icon="MOD_MIRROR", text='Symmetry')
         self.layout.operator("bakemyscan.relax",             icon="MOD_SMOKE",  text='Relax!')
         self.layout.operator("bakemyscan.manifold",          icon="MOD_FLUIDSIM",  text='Manifold')
         self.layout.operator("bakemyscan.remove_all_but_selected", icon="X", text="Clean non selected data")
 
-        self.layout.label("Texture baking")
+        self.layout.label(text = "Texture baking")
         self.layout.operator("bakemyscan.bake_textures",         icon="TEXTURE", text="Bake textures")
         self.layout.operator("bakemyscan.bake_to_vertex_colors", icon="COLOR",   text="Albedo to Vertex color")
 
-class MaterialPanel(BakeMyScanPanel):
+class BAKE_PT_MaterialPanel(BakeMyScanPanel):
     bl_label       = "Material / Textures"
 
     @classmethod
@@ -131,7 +132,7 @@ class MaterialPanel(BakeMyScanPanel):
             row = layout.row()
             lab = row.row()
             lab.scale_x = 1.0
-            lab.label(name)
+            lab.label(text = name)
             sub=row.row()
             sub.scale_x=4.0
             sub.template_ID(data=node,property="image",open="image.open")
@@ -153,7 +154,7 @@ class MaterialPanel(BakeMyScanPanel):
 
         #Display a warning
         if ob is None:
-            self.layout.label("No active object")
+            self.layout.label(text = "No active object")
 
         #Display the material selector widget
         if ob is not None and len(context.selected_objects)>0:
@@ -173,7 +174,7 @@ class MaterialPanel(BakeMyScanPanel):
                 row = box.row()
                 lab = row.row()
                 lab.scale_x = 1.0
-                lab.label("")
+                lab.label(text = "")
                 sub=row.row()
                 sub.scale_x=4.0
                 sub.prop(context.scene.bakemyscan_properties, "ao_factor", text="Factor")
@@ -212,10 +213,10 @@ class MaterialPanel(BakeMyScanPanel):
                                     self.layout.prop(context.scene.bakemyscan_properties, "uv_scale", text="UV scale")
                                     self.layout.prop(context.scene.bakemyscan_properties, "height",   text="Height")
 
-class RemeshFromSculptPanel(bpy.types.Panel):
+class BAKE_PT_RemeshFromSculptPanel(bpy.types.Panel):
     bl_space_type  = "VIEW_3D"
-    bl_region_type = "TOOLS"
-    bl_category    = "Tools"
+    bl_region_type = "UI"
+    bl_category    = "UI"
     bl_label       = "BakeMyScan"
     bl_context     = "sculpt_mode"
     bl_options     = {"DEFAULT_CLOSED"}
@@ -223,7 +224,7 @@ class RemeshFromSculptPanel(bpy.types.Panel):
     def draw(self, context):
         self.layout.operator("bakemyscan.full_pipeline", icon="MOD_DECIM", text="Retopology")
 
-class HDRIsPanel(BakeMyScanPanel):
+class BAKE_PT_HDRIsPanel(BakeMyScanPanel):
     """Creates a Panel in the Object properties window"""
     bl_label       = "HDRIs"
 
@@ -250,7 +251,7 @@ class HDRIsPanel(BakeMyScanPanel):
             layout.prop(context.scene.bakemyscan_properties, "intensity", text="Intensity")
             layout.prop(context.scene.bakemyscan_properties, "rotation", text="Rotation")
 
-class AboutPanel(BakeMyScanPanel):
+class BAKE_PT_AboutPanel(BakeMyScanPanel):
     bl_label       = "Updates / Help"
 
     def draw(self, context):
@@ -288,20 +289,20 @@ class AboutPanel(BakeMyScanPanel):
                     icon = bpy.types.Scene.custom_icons["bakemyscan"].icon_id
                     row.operator("wm.url_open", icon="INFO", text='Current: %s' % name, icon_value=icon).url = "https://github.com/norgeotloic/BakeMyScan/releases/tag/"+name
 
-        self.layout.label("Resources")
+        self.layout.label(text = "Resources")
         self.layout.operator("wm.url_open", text="Tutorials", icon="QUESTION").url = "http://bakemyscan.org/tutorials"
         self.layout.operator("wm.url_open", text="BlenderArtists", icon="BLENDER").url = "https://blenderartists.org/t/bakemyscan-open-source-toolbox-for-asset-optimization"
         self.layout.operator("wm.url_open", text="Sketchfab", icon_value=bpy.types.Scene.custom_icons["sketchfab"].icon_id).url = "https://sketchfab.com/norgeotloic"
         self.layout.operator("wm.url_open", text="Twitter",   icon_value=bpy.types.Scene.custom_icons["tweeter"].icon_id).url = "https://twitter.com/norgeotloic"
         self.layout.operator("wm.url_open", text="Youtube",   icon_value=bpy.types.Scene.custom_icons["youtube"].icon_id).url = "https://youtube.com/norgeotloic"
 
-        self.layout.label("Development")
+        self.layout.label(text = "Development")
         self.layout.operator("wm.url_open", text="Github",         icon_value=bpy.types.Scene.custom_icons["github"].icon_id).url = "http://github.com/norgeotloic/BakeMyScan"
         self.layout.operator("wm.url_open", text="Build status",   icon_value=bpy.types.Scene.custom_icons["travis"].icon_id).url = "https://travis-ci.org/norgeotloic/BakeMyScan"
         self.layout.operator("wm.url_open", text="Roadmap",   icon="SORTTIME").url = "http://github.com/norgeotloic/BakeMyScan/milestones"
         self.layout.operator("wm.url_open", text='"Blog"',    icon="WORDWRAP_ON").url = "http://bakemyscan.org/blog"
 
-        self.layout.label("External software")
+        self.layout.label(text = "External software")
         self.layout.operator("wm.url_open", text="MMGtools", icon_value=bpy.types.Scene.custom_icons["mmg"].icon_id).url = "https://www.mmgtools.org/"
         self.layout.operator("wm.url_open", text="Instant Meshes", icon_value=bpy.types.Scene.custom_icons["instant"].icon_id).url = "https://github.com/wjakob/instant-meshes"
         self.layout.operator("wm.url_open", text="Quadriflow", icon="MOD_DECIM").url = "https://github.com/hjwdzh/QuadriFlow"
@@ -333,18 +334,18 @@ def register():
     bpy.types.Scene.bakemyscan_properties = bpy.props.PointerProperty(type=BakeMyScanProperties)
     bpy.types.Scene.imagesdirectory = ""
     #Panels
-    bpy.utils.register_class(ScanPanel)
-    bpy.utils.register_class(MaterialPanel)
-    bpy.utils.register_class(RemeshFromSculptPanel)
-    bpy.utils.register_class(PipelinePanel)
-    bpy.utils.register_class(HDRIsPanel)
-    bpy.utils.register_class(AboutPanel)
+    bpy.utils.register_class(BAKE_PT_ScanPanel)
+    bpy.utils.register_class(BAKE_PT_MaterialPanel)
+    bpy.utils.register_class(BAKE_PT_RemeshFromSculptPanel)
+    bpy.utils.register_class(BAKE_PT_PipelinePanel)
+    bpy.utils.register_class(BAKE_PT_HDRIsPanel)
+    bpy.utils.register_class(BAKE_PT_AboutPanel)
     #Menu options
-    bpy.types.INFO_MT_file_import.append(import_mesh_func)
-    bpy.types.INFO_MT_file_export.append(export_mesh_func)
-    bpy.types.INFO_MT_file_import.append(import_bms_func)
-    bpy.types.INFO_MT_file_export.append(export_bms_func)
-    bpy.types.INFO_MT_render.append(export_ortho_func)
+    bpy.types.TOPBAR_MT_file_import.append(import_mesh_func)
+    bpy.types.TOPBAR_MT_file_export.append(export_mesh_func)
+    bpy.types.TOPBAR_MT_file_import.append(import_bms_func)
+    bpy.types.TOPBAR_MT_file_export.append(export_bms_func)
+    bpy.types.TOPBAR_MT_render.append(export_ortho_func)
     #Node options
     bpy.types.NODE_MT_add.append(add_empty_pbr)
     bpy.types.NODE_MT_add.append(add_pbr_from_library)
@@ -355,18 +356,18 @@ def unregister():
     del bpy.types.Scene.bakemyscan_properties
     del bpy.types.Scene.imagesdirectory
     #Panels
-    bpy.utils.unregister_class(ScanPanel)
-    bpy.utils.unregister_class(MaterialPanel)
-    bpy.utils.unregister_class(RemeshFromSculptPanel)
-    bpy.utils.unregister_class(PipelinePanel)
-    bpy.utils.unregister_class(HDRIsPanel)
-    bpy.utils.unregister_class(AboutPanel)
+    bpy.utils.unregister_class(BAKE_PT_ScanPanel)
+    bpy.utils.unregister_class(BAKE_PT_MaterialPanel)
+    bpy.utils.unregister_class(BAKE_PT_RemeshFromSculptPanel)
+    bpy.utils.unregister_class(BAKE_PT_PipelinePanel)
+    bpy.utils.unregister_class(BAKE_PT_HDRIsPanel)
+    bpy.utils.unregister_class(BAKE_PT_AboutPanel)
     #Menu options
-    bpy.types.INFO_MT_file_import.remove(import_mesh_func)
-    bpy.types.INFO_MT_file_export.remove(export_mesh_func)
-    bpy.types.INFO_MT_file_import.remove(import_bms_func)
-    bpy.types.INFO_MT_file_export.remove(export_bms_func)
-    bpy.types.INFO_MT_render.remove(export_ortho_func)
+    bpy.types.TOPBAR_MT_file_import.remove(import_mesh_func)
+    bpy.types.TOPBAR_MT_file_export.remove(export_mesh_func)
+    bpy.types.TOPBAR_MT_file_import.remove(import_bms_func)
+    bpy.types.TOPBAR_MT_file_export.remove(export_bms_func)
+    bpy.types.TOPBAR_MT_render.remove(export_ortho_func)
     #Node options
     bpy.types.NODE_MT_add.remove(add_empty_pbr)
     bpy.types.NODE_MT_add.remove(add_pbr_from_library)

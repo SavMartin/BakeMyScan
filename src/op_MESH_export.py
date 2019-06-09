@@ -12,13 +12,13 @@ class export_mesh(bpy.types.Operator, ExportHelper):
     bl_label  = "Exports a .mesh file"
 
     #ExportHelper settings
-    filter_glob = bpy.props.StringProperty(
+    filter_glob : bpy.props.StringProperty(
         default="*.mesh",
         options={'HIDDEN'},
     )
     check_extension = True
     filename_ext = ".mesh"
-    filepath = bpy.props.StringProperty(
+    filepath : bpy.props.StringProperty(
         name="Export mesh file",
         description="New mesh file to export to",
         maxlen= 1024,
@@ -26,9 +26,9 @@ class export_mesh(bpy.types.Operator, ExportHelper):
     )
 
     #Operator properties
-    writeSol    = bpy.props.FloatProperty(name="writeSol", description="Write the .sol if weight paints are present", default=False)
-    miniSol     = bpy.props.FloatProperty(name="miniSol",  description="Minimum scalar", default=0.01, subtype="FACTOR")
-    maxiSol     = bpy.props.FloatProperty(name="maxiSol",  description="Maximum scalar", default=1, subtype="FACTOR")
+    writeSol    : bpy.props.FloatProperty(name="writeSol", description="Write the .sol if weight paints are present", default=False)
+    miniSol     : bpy.props.FloatProperty(name="miniSol",  description="Minimum scalar", default=0.01, subtype="FACTOR")
+    maxiSol     : bpy.props.FloatProperty(name="maxiSol",  description="Maximum scalar", default=1, subtype="FACTOR")
 
 
     @classmethod
@@ -44,7 +44,7 @@ class export_mesh(bpy.types.Operator, ExportHelper):
 
         #Duplicate the selected object and make the duplicate active
         bpy.ops.object.duplicate()
-        obj = context.scene.objects.active
+        obj = context.view_layer.objects.active
 
         #Convert ngons to triangles
         bpy.context.tool_settings.mesh_select_mode=(False,False,True)

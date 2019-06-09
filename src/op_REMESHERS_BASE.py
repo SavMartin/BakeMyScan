@@ -62,7 +62,7 @@ class BaseRemesher(bpy.types.Operator):
         #Operators working on a duplicated object
         if self.workonduplis:
             bpy.ops.object.duplicate()
-            self.copiedobject = context.scene.objects.active
+            self.copiedobject = context.view_layer.objects.active
             #Apply the modifiers
             for m in self.copiedobject.modifiers:
                 bpy.ops.object.modifier_apply(modifier=m.name)
@@ -78,8 +78,8 @@ class BaseRemesher(bpy.types.Operator):
             self.new = newObjects[0]
             #Make it selected and active
             bpy.ops.object.select_all(action='DESELECT')
-            self.new.select=True
-            bpy.context.scene.objects.active = self.new
+            self.new.select_set(state = True , view_layer = None)
+            bpy.context.view_layer.objects.active= self.new
             #Remove edges marked as sharp, and delete the loose geometry
             bpy.ops.object.editmode_toggle()
             bpy.ops.mesh.mark_sharp(clear=True)
@@ -97,7 +97,7 @@ class BaseRemesher(bpy.types.Operator):
                     bpy.ops.object.material_slot_remove()
             #Hide the old object
             if self.hide_old:
-                self.initialobject.hide = True
+                self.initialobject.hide_viewport = True
     def execute(self, context):
         #Set the executable path
         self.setexe(context)

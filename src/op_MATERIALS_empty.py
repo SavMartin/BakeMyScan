@@ -18,7 +18,7 @@ class create_empty_material(bpy.types.Operator):
     bl_label  = "Creates an empty PBR material"
     bl_options = {"REGISTER", "UNDO"}
 
-    name = bpy.props.StringProperty(name="name", default="PBR", description="Material name")
+    name : bpy.props.StringProperty(name="name", default="PBR", description="Material name")
 
     @classmethod
     def poll(self, context):
@@ -65,7 +65,7 @@ class create_empty_node(bpy.types.Operator):
     bl_label  = "Creates an empty PBR node"
     bl_options = {"REGISTER", "UNDO"}
 
-    name = bpy.props.StringProperty(name="name", default="PBR", description="Material name")
+    name : bpy.props.StringProperty(name="name", default="PBR", description="Material name")
 
     @classmethod
     def poll(self, context):
@@ -88,8 +88,8 @@ class create_empty_node(bpy.types.Operator):
 
         #Select the group and link it to the mouse for better placement
         for n in mat.node_tree.nodes:
-            n.select = False
-        _group.select = True
+            n.select_set(state = False , view_layer = None)
+        _group.select_set(state = True , view_layer = None)
         _group.location = context.space_data.cursor_location
         mat.node_tree.nodes.active = _group
         bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')

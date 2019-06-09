@@ -11,7 +11,7 @@ class material_from_texture(bpy.types.Operator, ImportHelper):
     bl_label  = "Load material from texture"
     bl_options = {"REGISTER", "UNDO"}
 
-    filter_glob = bpy.props.StringProperty(
+    filter_glob : bpy.props.StringProperty(
         default="*.png;*.jpg;*.jpeg;*.bmp;*.tif;*.tiff;*.exr",
         options={'HIDDEN'},
     )

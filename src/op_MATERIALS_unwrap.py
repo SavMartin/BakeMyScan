@@ -6,7 +6,7 @@ class unwrap(bpy.types.Operator):
     bl_label  = "Unwrap the model"
     bl_options = {"REGISTER", "UNDO"}
 
-    method = bpy.props.EnumProperty(
+    method : bpy.props.EnumProperty(
         items= (
             ('basic',   'Basic unwrapping',   'Basic unwrapping'),
             ("smart",   "Smart UV project",   "Smart UV project"),

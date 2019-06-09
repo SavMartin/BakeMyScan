@@ -11,11 +11,11 @@ class export_orthoview(bpy.types.Operator, ExportHelper):
     bl_options = {"REGISTER", "UNDO"}
 
     filename_ext = ".png"
-    filter_glob = bpy.props.StringProperty(default="*.png", options={'HIDDEN'})
-    margin      = bpy.props.IntProperty(default=50, min=5,max=512)
-    resolution  = bpy.props.IntProperty(default=512, min=64,max=2048)
+    filter_glob : bpy.props.StringProperty(default="*.png", options={'HIDDEN'})
+    margin      : bpy.props.IntProperty(default=50, min=5,max=512)
+    resolution  : bpy.props.IntProperty(default=512, min=64,max=2048)
 
-    filepath = bpy.props.StringProperty(
+    filepath : bpy.props.StringProperty(
         name="Export ortho view",
         description="Image to export the view to",
         maxlen= 1024,

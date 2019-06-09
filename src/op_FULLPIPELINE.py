@@ -29,71 +29,71 @@ class full_pipeline(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
 
     #Quadriflow
-    quadriflow_resolution = bpy.props.IntProperty(description="Resolution", default=1000, min=10, max=100000 )
-    quadriflow_advanced = bpy.props.BoolProperty(description="advanced properties", default=False)
-    quadriflow_mincost  = bpy.props.BoolProperty(description="Min-Cost Flow Solver", default=False )
-    quadriflow_sharp    = bpy.props.BoolProperty(description="Preserve sharp edges", default=False )
-    quadriflow_satflip  = bpy.props.BoolProperty(description="SAT Flip Removal", default=False )
+    quadriflow_resolution : bpy.props.IntProperty(description="Resolution", default=1000, min=10, max=100000 )
+    quadriflow_advanced : bpy.props.BoolProperty(description="advanced properties", default=False)
+    quadriflow_mincost  : bpy.props.BoolProperty(description="Min-Cost Flow Solver", default=False )
+    quadriflow_sharp    : bpy.props.BoolProperty(description="Preserve sharp edges", default=False )
+    quadriflow_satflip  : bpy.props.BoolProperty(description="SAT Flip Removal", default=False )
 
     #Instant
-    instant_interactive = bpy.props.BoolProperty(description="Interactive", default=False)
-    instant_method      = bpy.props.EnumProperty(items= ( ('faces', 'Number of faces', 'Number of faces'), ("verts", "Number of verts", "Number of verts"), ("edges", "Edge length", "Edge length")), description="Remesh according to", default="faces")
-    instant_facescount  = bpy.props.IntProperty(description="Number of faces", default=5000, min=10, max=10000000 )
-    instant_vertscount  = bpy.props.IntProperty(description="Number of verts", default=5000, min=10, max=10000000 )
-    instant_edgelength  = bpy.props.FloatProperty(description="Edge length (ratio)", default=0.05, min=0.001, max=1 )
-    instant_advanced = bpy.props.BoolProperty(description="advanced properties", default=False)
-    instant_d = bpy.props.BoolProperty(description="Deterministic (slower)", default=False)
-    instant_D = bpy.props.BoolProperty(description="Tris/quads dominant instead of pure", default=False)
-    instant_i = bpy.props.BoolProperty(description="Intrinsic mode", default=False)
-    instant_b = bpy.props.BoolProperty(description="Align to boundaries", default=False)
-    instant_C = bpy.props.BoolProperty(description="Compatibility mode", default=False)
-    instant_c = bpy.props.FloatProperty(description="Creases angle threshold", default=30, min=0, max=180 )
-    instant_S = bpy.props.IntProperty(description="Smoothing reprojection steps", default=2, min=0, max=100 )
-    instant_r = bpy.props.EnumProperty(items= ( ('r0', 'none', 'none'), ("2", "2", "2"), ("4", "4", "4"), ("6", "6", "6")) ,description="Orientation symmetry type", default="r0")
-    instant_p = bpy.props.EnumProperty(items= ( ('p0', 'none', 'none'), ("4", "4", "4"), ("6", "6", "6")) ,description="Position symmetry type", default="p0")
+    instant_interactive : bpy.props.BoolProperty(description="Interactive", default=False)
+    instant_method      : bpy.props.EnumProperty(items= ( ('faces', 'Number of faces', 'Number of faces'), ("verts", "Number of verts", "Number of verts"), ("edges", "Edge length", "Edge length")), description="Remesh according to", default="faces")
+    instant_facescount  : bpy.props.IntProperty(description="Number of faces", default=5000, min=10, max=10000000 )
+    instant_vertscount  : bpy.props.IntProperty(description="Number of verts", default=5000, min=10, max=10000000 )
+    instant_edgelength  : bpy.props.FloatProperty(description="Edge length (ratio)", default=0.05, min=0.001, max=1 )
+    instant_advanced : bpy.props.BoolProperty(description="advanced properties", default=False)
+    instant_d : bpy.props.BoolProperty(description="Deterministic (slower)", default=False)
+    instant_D : bpy.props.BoolProperty(description="Tris/quads dominant instead of pure", default=False)
+    instant_i : bpy.props.BoolProperty(description="Intrinsic mode", default=False)
+    instant_b : bpy.props.BoolProperty(description="Align to boundaries", default=False)
+    instant_C : bpy.props.BoolProperty(description="Compatibility mode", default=False)
+    instant_c : bpy.props.FloatProperty(description="Creases angle threshold", default=30, min=0, max=180 )
+    instant_S : bpy.props.IntProperty(description="Smoothing reprojection steps", default=2, min=0, max=100 )
+    instant_r : bpy.props.EnumProperty(items= ( ('r0', 'none', 'none'), ("2", "2", "2"), ("4", "4", "4"), ("6", "6", "6")) ,description="Orientation symmetry type", default="r0")
+    instant_p : bpy.props.EnumProperty(items= ( ('p0', 'none', 'none'), ("4", "4", "4"), ("6", "6", "6")) ,description="Position symmetry type", default="p0")
 
     #mmgs
-    mmgs_smooth = bpy.props.BoolProperty(description="Ignore angle detection (smooth)", default=True)
-    mmgs_hausd  = bpy.props.FloatProperty(description="Haussdorf distance (ratio)", default=0.01, min=0.0001, max=1)
-    mmgs_advanced = bpy.props.BoolProperty(description="advanced properties", default=False)
-    mmgs_angle  = bpy.props.FloatProperty(description="Angle detection (°)", default=30, min=0.01, max=180.)
-    mmgs_hmin   = bpy.props.FloatProperty(description="Minimal edge size (ratio)", default=0.005, min=0.0001, max=1)
-    mmgs_hmax   = bpy.props.FloatProperty(description="Maximal edge size (ratio)", default=0.05, min=0.0001, max=5)
-    mmgs_hgrad  = bpy.props.FloatProperty(description="Gradation parameter", default=1.3, min=1., max=5.)
-    mmgs_aniso  = bpy.props.BoolProperty(description="Enable anisotropy", default=False)
-    mmgs_nreg   = bpy.props.BoolProperty(description="Normal regulation", default=False)
-    mmgs_weight   = bpy.props.BoolProperty(description="weight as edge length", default=False)
+    mmgs_smooth : bpy.props.BoolProperty(description="Ignore angle detection (smooth)", default=True)
+    mmgs_hausd  : bpy.props.FloatProperty(description="Haussdorf distance (ratio)", default=0.01, min=0.0001, max=1)
+    mmgs_advanced : bpy.props.BoolProperty(description="advanced properties", default=False)
+    mmgs_angle  : bpy.props.FloatProperty(description="Angle detection (°)", default=30, min=0.01, max=180.)
+    mmgs_hmin   : bpy.props.FloatProperty(description="Minimal edge size (ratio)", default=0.005, min=0.0001, max=1)
+    mmgs_hmax   : bpy.props.FloatProperty(description="Maximal edge size (ratio)", default=0.05, min=0.0001, max=5)
+    mmgs_hgrad  : bpy.props.FloatProperty(description="Gradation parameter", default=1.3, min=1., max=5.)
+    mmgs_aniso  : bpy.props.BoolProperty(description="Enable anisotropy", default=False)
+    mmgs_nreg   : bpy.props.BoolProperty(description="Normal regulation", default=False)
+    mmgs_weight   : bpy.props.BoolProperty(description="weight as edge length", default=False)
 
     #meshlab
-    meshlab_facescount = bpy.props.IntProperty(description="Number of faces", default=5000, min=10, max=1000000 )
-    meshlab_advanced = bpy.props.BoolProperty(description="advanced properties", default=False)
-    meshlab_quality    = bpy.props.FloatProperty(description="Quality threshold", default=0.3, min=0., max=1. )
-    meshlab_boundaries = bpy.props.BoolProperty(description="Preserve boundary", default=False)
-    meshlab_weight     = bpy.props.FloatProperty(description="Boundary preserving weight", default=1., min=0., max=1. )
-    meshlab_normals  = bpy.props.BoolProperty(description="Preserve normals", default=False)
-    meshlab_topology = bpy.props.BoolProperty(description="Preserve topology", default=False)
-    meshlab_existing = bpy.props.BoolProperty(description="Use existing vertices", default=False)
-    meshlab_planar   = bpy.props.BoolProperty(description="Planar simplification", default=False)
-    meshlab_post     = bpy.props.BoolProperty(description="Post-process (isolated, duplicates...)", default=True)
+    meshlab_facescount : bpy.props.IntProperty(description="Number of faces", default=5000, min=10, max=1000000 )
+    meshlab_advanced : bpy.props.BoolProperty(description="advanced properties", default=False)
+    meshlab_quality    : bpy.props.FloatProperty(description="Quality threshold", default=0.3, min=0., max=1. )
+    meshlab_boundaries : bpy.props.BoolProperty(description="Preserve boundary", default=False)
+    meshlab_weight     : bpy.props.FloatProperty(description="Boundary preserving weight", default=1., min=0., max=1. )
+    meshlab_normals  : bpy.props.BoolProperty(description="Preserve normals", default=False)
+    meshlab_topology : bpy.props.BoolProperty(description="Preserve topology", default=False)
+    meshlab_existing : bpy.props.BoolProperty(description="Use existing vertices", default=False)
+    meshlab_planar   : bpy.props.BoolProperty(description="Planar simplification", default=False)
+    meshlab_post     : bpy.props.BoolProperty(description="Post-process (isolated, duplicates...)", default=True)
 
     #Decimate
-    decim_limit    = bpy.props.IntProperty(description="Target faces", default=1500, min=50, max=500000)
-    decim_vertex_group = bpy.props.BoolProperty(description="Use vertex group", default=False)
-    decim_factor = bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
+    decim_limit    : bpy.props.IntProperty(description="Target faces", default=1500, min=50, max=500000)
+    decim_vertex_group : bpy.props.BoolProperty(description="Use vertex group", default=False)
+    decim_factor : bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
 
     #Iterative
-    iter_limit    = bpy.props.IntProperty(description="Target faces", default=1500, min=50, max=500000)
-    iter_vertex_group  = bpy.props.BoolProperty(description="Use vertex group", default=False)
-    iter_factor = bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
+    iter_limit    : bpy.props.IntProperty(description="Target faces", default=1500, min=50, max=500000)
+    iter_vertex_group  : bpy.props.BoolProperty(description="Use vertex group", default=False)
+    iter_factor : bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
 
     #Quads
-    quads_nfaces = bpy.props.IntProperty(description="Decimate ratio",  default=1500, min=50, max=200000)
-    quads_smooth = bpy.props.IntProperty(description="Smoothing steps", default=1, min=0, max=15)
-    quads_vertex_group  = bpy.props.BoolProperty(description="Use vertex group", default=False)
-    quads_factor = bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
+    quads_nfaces : bpy.props.IntProperty(description="Decimate ratio",  default=1500, min=50, max=200000)
+    quads_smooth : bpy.props.IntProperty(description="Smoothing steps", default=1, min=0, max=15)
+    quads_vertex_group  : bpy.props.BoolProperty(description="Use vertex group", default=False)
+    quads_factor : bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
 
     #Remeshing options
-    remeshing_method = bpy.props.EnumProperty(
+    remeshing_method : bpy.props.EnumProperty(
         items = available_methods_callback,
         description="Remeshing method",
     )
@@ -139,7 +139,7 @@ class full_pipeline(bpy.types.Operator):
                 if os.name != "nt":
                     box.prop(self, "quadriflow_satflip",   text="SAT Flip Removal")
                     if self.quadriflow_satflip:
-                        box.label('"minisat" and "timeout" need to be installed!')
+                        box.label(text = '"minisat" and "timeout" need to be installed!')
 
         elif self.remeshing_method == "meshlabserver":
             box.prop(self, "meshlab_facescount",  text="Number of faces")
@@ -198,11 +198,11 @@ class full_pipeline(bpy.types.Operator):
             box1 = box.box()
             box1.prop(self, "mmgs_weight", text="Use weight paint")
             if self.mmgs_weight:
-                box1.label('Warning!')
-                box1.label('Low weights (blue) <-> max size')
-                box1.label('High weights (red) <-> min size')
-                box1.label('Min size too low -> very long!')
-                box1.label('Try defaults first!')
+                box1.label(text = 'Warning!')
+                box1.label(text = 'Low weights (blue) <-> max size')
+                box1.label(text = 'High weights (red) <-> min size')
+                box1.label(text = 'Min size too low -> very long!')
+                box1.label(text = 'Try defaults first!')
                 box1.prop(self, "mmgs_hmin",   text="Minimal edge size (ratio)")
                 box1.prop(self, "mmgs_hmax",   text="Maximal edge size (ratio)")
 

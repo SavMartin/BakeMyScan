@@ -14,12 +14,12 @@ class Quadriflow(base.BaseRemesher):
     bl_idname = "bakemyscan.remesh_quadriflow"
     bl_label  = "Quadriflow"
 
-    resolution = bpy.props.IntProperty( name="resolution", description="Resolution", default=1000, min=10, max=100000 )
+    resolution : bpy.props.IntProperty( name="resolution", description="Resolution", default=1000, min=10, max=100000 )
 
-    advanced = bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
-    mincost  = bpy.props.BoolProperty( name="mincost", description="Min-Cost Flow Solver", default=False )
-    sharp    = bpy.props.BoolProperty( name="sharp", description="Preserve sharp edges", default=False )
-    satflip  = bpy.props.BoolProperty( name="satflip", description="SAT Flip Removal", default=False )
+    advanced : bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
+    mincost  : bpy.props.BoolProperty( name="mincost", description="Min-Cost Flow Solver", default=False )
+    sharp    : bpy.props.BoolProperty( name="sharp", description="Preserve sharp edges", default=False )
+    satflip  : bpy.props.BoolProperty( name="satflip", description="SAT Flip Removal", default=False )
 
     def check(self, context):
         return True
@@ -34,7 +34,7 @@ class Quadriflow(base.BaseRemesher):
             if os.name != "nt":
                 box.prop(self, "satflip",   text="SAT Flip Removal")
                 if self.satflip:
-                    box.label('"minisat" and "timeout" need to be installed!')
+                    box.label(text = '"minisat" and "timeout" need to be installed!')
 
     #Overriden methods
     def setexe(self, context):
@@ -61,24 +61,24 @@ class Instant(base.BaseRemesher):
     bl_idname = "bakemyscan.remesh_instant"
     bl_label  = "Instant Meshes"
 
-    interactive = bpy.props.BoolProperty(  name="interactive", description="Interactive", default=False)
-    method      = bpy.props.EnumProperty(items= ( ('faces', 'Number of faces', 'Number of faces'), ("verts", "Number of verts", "Number of verts"), ("edges", "Edge length", "Edge length")) , name="Remesh according to", description="Remesh according to", default="faces")
-    facescount  = bpy.props.IntProperty(   name="facescount",  description="Number of faces", default=5000, min=10, max=10000000 )
-    vertscount  = bpy.props.IntProperty(   name="vertscount",  description="Number of verts", default=5000, min=10, max=10000000 )
-    edgelength  = bpy.props.FloatProperty( name="edgelength",  description="Edge length (ratio)", default=0.05, min=0.001, max=1 )
+    interactive : bpy.props.BoolProperty(  name="interactive", description="Interactive", default=False)
+    method      : bpy.props.EnumProperty(items= ( ('faces', 'Number of faces', 'Number of faces'), ("verts", "Number of verts", "Number of verts"), ("edges", "Edge length", "Edge length")) , name="Remesh according to", description="Remesh according to", default="faces")
+    facescount  : bpy.props.IntProperty(   name="facescount",  description="Number of faces", default=5000, min=10, max=10000000 )
+    vertscount  : bpy.props.IntProperty(   name="vertscount",  description="Number of verts", default=5000, min=10, max=10000000 )
+    edgelength  : bpy.props.FloatProperty( name="edgelength",  description="Edge length (ratio)", default=0.05, min=0.001, max=1 )
 
-    d = bpy.props.BoolProperty( name="d", description="Deterministic (slower)", default=False)
-    D = bpy.props.BoolProperty( name="D", description="Tris/quads dominant instead of pure", default=False)
-    i = bpy.props.BoolProperty( name="i", description="Intrinsic mode", default=False)
-    b = bpy.props.BoolProperty( name="b", description="Align to boundaries", default=False)
-    C = bpy.props.BoolProperty( name="C", description="Compatibility mode", default=False)
+    d : bpy.props.BoolProperty( name="d", description="Deterministic (slower)", default=False)
+    D : bpy.props.BoolProperty( name="D", description="Tris/quads dominant instead of pure", default=False)
+    i : bpy.props.BoolProperty( name="i", description="Intrinsic mode", default=False)
+    b : bpy.props.BoolProperty( name="b", description="Align to boundaries", default=False)
+    C : bpy.props.BoolProperty( name="C", description="Compatibility mode", default=False)
 
-    c = bpy.props.FloatProperty( name="c",  description="Creases angle threshold", default=30, min=0, max=180 )
-    S = bpy.props.IntProperty(   name="S",  description="Smoothing reprojection steps", default=2, min=0, max=100 )
-    r = bpy.props.EnumProperty(items= ( ('r0', 'none', 'none'), ("2", "2", "2"), ("4", "4", "4"), ("6", "6", "6")) , name="r", description="Orientation symmetry type", default="r0")
-    p = bpy.props.EnumProperty(items= ( ('p0', 'none', 'none'), ("4", "4", "4"), ("6", "6", "6")) , name="r", description="Position symmetry type", default="p0")
+    c : bpy.props.FloatProperty( name="c",  description="Creases angle threshold", default=30, min=0, max=180 )
+    S : bpy.props.IntProperty(   name="S",  description="Smoothing reprojection steps", default=2, min=0, max=100 )
+    r : bpy.props.EnumProperty(items= ( ('r0', 'none', 'none'), ("2", "2", "2"), ("4", "4", "4"), ("6", "6", "6")) , name="r", description="Orientation symmetry type", default="r0")
+    p : bpy.props.EnumProperty(items= ( ('p0', 'none', 'none'), ("4", "4", "4"), ("6", "6", "6")) , name="r", description="Position symmetry type", default="p0")
 
-    advanced = bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
+    advanced : bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
 
     def check(self, context):
         return True
@@ -87,7 +87,7 @@ class Instant(base.BaseRemesher):
         box.prop(self, "interactive", text="Interactive mode")
 
         if not self.interactive:
-            box.label('Basic options')
+            box.label(text = 'Basic options')
             box.prop(self, "method", text="Remesh according to")
             if self.method == "faces":
                 box.prop(self, "facescount",  text="Desired number of faces")
@@ -162,34 +162,34 @@ class Mmgs(base.BaseRemesher):
     bl_label  = "Mmgs"
 
     #Basic options
-    smooth = bpy.props.BoolProperty(  name="smooth", description="Ignore angle detection (smooth)", default=True)
-    hausd  = bpy.props.FloatProperty( name="hausd", description="Haussdorf distance (ratio)", default=0.01, min=0.0001, max=1)
+    smooth : bpy.props.BoolProperty(  name="smooth", description="Ignore angle detection (smooth)", default=True)
+    hausd  : bpy.props.FloatProperty( name="hausd", description="Haussdorf distance (ratio)", default=0.01, min=0.0001, max=1)
     #Advanced options
-    advanced = bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
-    angle  = bpy.props.FloatProperty( name="hausd",  description="Angle detection (°)", default=30, min=0.01, max=180.)
-    hmin   = bpy.props.FloatProperty( name="hmin",   description="Minimal edge size (ratio)", default=0.005, min=0.0001, max=1)
-    hmax   = bpy.props.FloatProperty( name="hmax",   description="Maximal edge size (ratio)", default=0.05, min=0.0001, max=5)
-    hgrad  = bpy.props.FloatProperty( name="hgrad",  description="Gradation parameter", default=1.3, min=1., max=5.)
-    aniso  = bpy.props.BoolProperty(  name="aniso",  description="Enable anisotropy", default=False)
-    nreg   = bpy.props.BoolProperty(  name="nreg",   description="Normal regulation", default=False)
-    weight   = bpy.props.BoolProperty(  name="weight", description="weight as edge length", default=False)
+    advanced : bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
+    angle  : bpy.props.FloatProperty( name="hausd",  description="Angle detection (°)", default=30, min=0.01, max=180.)
+    hmin   : bpy.props.FloatProperty( name="hmin",   description="Minimal edge size (ratio)", default=0.005, min=0.0001, max=1)
+    hmax   : bpy.props.FloatProperty( name="hmax",   description="Maximal edge size (ratio)", default=0.05, min=0.0001, max=5)
+    hgrad  : bpy.props.FloatProperty( name="hgrad",  description="Gradation parameter", default=1.3, min=1., max=5.)
+    aniso  : bpy.props.BoolProperty(  name="aniso",  description="Enable anisotropy", default=False)
+    nreg   : bpy.props.BoolProperty(  name="nreg",   description="Normal regulation", default=False)
+    weight   : bpy.props.BoolProperty(  name="weight", description="weight as edge length", default=False)
 
     def check(self, context):
         return True
     def draw(self, context):
         box = self.layout.box()
-        box.label('Basic options')
+        box.label(text = 'Basic options')
         box.prop(self, "hausd",  text="Haussdorf distance (ratio)")
         box.prop(self, "smooth", text="Ignore angle detection (smooth)")
 
         box = self.layout.box()
         box.prop(self, "weight", text="Use weight paint")
         if self.weight:
-            box.label('Warning!')
-            box.label('Low weights (blue) <-> max size')
-            box.label('High weights (red) <-> min size')
-            box.label('Min size too low -> very long!')
-            box.label('Try defaults first!')
+            box.label(text = 'Warning!')
+            box.label(text = 'Low weights (blue) <-> max size')
+            box.label(text = 'High weights (red) <-> min size')
+            box.label(text = 'Min size too low -> very long!')
+            box.label(text = 'Try defaults first!')
             box.prop(self, "hmin",   text="Minimal edge size (ratio)")
             box.prop(self, "hmax",   text="Maximal edge size (ratio)")
 
@@ -241,22 +241,22 @@ class Meshlab(base.BaseRemesher):
     bl_idname = "bakemyscan.remesh_meshlab"
     bl_label  = "Meshlab"
 
-    facescount = bpy.props.IntProperty( name="facescount", description="Number of faces", default=5000, min=10, max=1000000 )
-    advanced = bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
-    quality    = bpy.props.FloatProperty( name="quality", description="Quality threshold", default=0.3, min=0., max=1. )
-    boundaries = bpy.props.BoolProperty( name="boundaries", description="Preserve boundary", default=False)
-    weight     = bpy.props.FloatProperty( name="weight", description="Boundary preserving weight", default=1., min=0., max=1. )
-    normals  = bpy.props.BoolProperty( name="normals", description="Preserve normals", default=False)
-    topology = bpy.props.BoolProperty( name="topology", description="Preserve topology", default=False)
-    existing = bpy.props.BoolProperty( name="existing", description="Use existing vertices", default=False)
-    planar   = bpy.props.BoolProperty( name="planar", description="Planar simplification", default=False)
-    post     = bpy.props.BoolProperty( name="post", description="Post-process (isolated, duplicates...)", default=True)
+    facescount : bpy.props.IntProperty( name="facescount", description="Number of faces", default=5000, min=10, max=1000000 )
+    advanced : bpy.props.BoolProperty(  name="advanced", description="advanced properties", default=False)
+    quality    : bpy.props.FloatProperty( name="quality", description="Quality threshold", default=0.3, min=0., max=1. )
+    boundaries : bpy.props.BoolProperty( name="boundaries", description="Preserve boundary", default=False)
+    weight     : bpy.props.FloatProperty( name="weight", description="Boundary preserving weight", default=1., min=0., max=1. )
+    normals  : bpy.props.BoolProperty( name="normals", description="Preserve normals", default=False)
+    topology : bpy.props.BoolProperty( name="topology", description="Preserve topology", default=False)
+    existing : bpy.props.BoolProperty( name="existing", description="Use existing vertices", default=False)
+    planar   : bpy.props.BoolProperty( name="planar", description="Planar simplification", default=False)
+    post     : bpy.props.BoolProperty( name="post", description="Post-process (isolated, duplicates...)", default=True)
 
     def check(self, context):
         return True
     def draw(self, context):
         box = self.layout.box()
-        box.label('Basic options')
+        box.label(text = 'Basic options')
         box.prop(self, "facescount",  text="Number of faces")
 
         box = self.layout.box()
@@ -319,9 +319,9 @@ class Basic(base.BaseRemesher):
     bl_label  = "Basic decimate"
     workonduplis = True
 
-    limit    = bpy.props.IntProperty(description="Target faces", default=1500, min=50, max=500000)
-    vertex_group = bpy.props.BoolProperty(description="Use vertex group", default=True)
-    factor = bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
+    limit    : bpy.props.IntProperty(description="Target faces", default=1500, min=50, max=500000)
+    vertex_group : bpy.props.BoolProperty(description="Use vertex group", default=True)
+    factor : bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
 
     def draw(self, context):
         self.layout.prop(self, "limit", text="Number of faces")
@@ -344,10 +344,10 @@ class Quads(base.BaseRemesher):
     bl_label  = "Dirty quads"
     workonduplis = True
 
-    nfaces = bpy.props.IntProperty(name="nfaces",   description="Decimate ratio",  default=1500, min=50, max=200000)
-    smooth = bpy.props.IntProperty(  name="smooth", description="Smoothing steps", default=1, min=0, max=15)
-    vertex_group = bpy.props.BoolProperty(name="vertex_group", description="Use vertex group", default=True)
-    factor = bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
+    nfaces : bpy.props.IntProperty(name="nfaces",   description="Decimate ratio",  default=1500, min=50, max=200000)
+    smooth : bpy.props.IntProperty(  name="smooth", description="Smoothing steps", default=1, min=0, max=15)
+    vertex_group : bpy.props.BoolProperty(name="vertex_group", description="Use vertex group", default=True)
+    factor : bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
 
     def draw(self, context):
         self.layout.prop(self, "nfaces",  text="Number of quads (min)")
@@ -381,8 +381,8 @@ class Quads(base.BaseRemesher):
         #Subdivision
         print("Subdividing")
         bpy.ops.object.modifier_add(type='SUBSURF')
-        bpy.context.object.modifiers["Subsurf"].levels = 1
-        bpy.ops.object.modifier_apply(apply_as='DATA', modifier="Subsurf")
+        bpy.context.object.modifiers['Subdivision'].levels = 1
+        bpy.ops.object.modifier_apply(apply_as='DATA', modifier="Subdivision")
 
         #Relaxation steps
         print("Relaxation steps")
@@ -411,9 +411,9 @@ class Iterative(base.BaseRemesher):
     bl_label  = "Iterative method"
     workonduplis = True
 
-    limit    = bpy.props.IntProperty(name="limit",    description="Target faces", default=1500, min=50, max=500000)
-    vertex_group = bpy.props.BoolProperty(name="vertex_group", description="Use vertex group", default=False)
-    factor = bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
+    limit    : bpy.props.IntProperty(name="limit",    description="Target faces", default=1500, min=50, max=500000)
+    vertex_group : bpy.props.BoolProperty(name="vertex_group", description="Use vertex group", default=False)
+    factor : bpy.props.FloatProperty(description="Weight factor", default=0.5, min=0., max=1.)
 
     def draw(self, context):
         self.layout.prop(self, "limit", text="target triangles")
@@ -470,17 +470,17 @@ class Iterative(base.BaseRemesher):
         while(iterate):
             i+=1
             print("-- Iteration %d:" % i)
-            lr = context.scene.objects.active
+            lr = context.view_layer.objects.active
             bpy.ops.object.duplicate()
             self.do_one_iteration()
-            tmp = context.scene.objects.active
+            tmp = context.view_layer.objects.active
             print("-- Iteration %d: %d tris -> %d tris" % (i, len(lr.data.polygons), len(tmp.data.polygons)) )
             if len(tmp.data.polygons) < self.limit:
                 print("-- We went far enough, cancel the last iteration")
                 iterate=False
                 bpy.data.objects.remove(tmp)
-                bpy.context.scene.objects.active = lr
-                lr.select = True
+                bpy.context.view_layer.objects.active= lr
+                lr.select_set(state = True , view_layer = None)
             else:
                 bpy.data.objects.remove(lr)
         del bpy.types.Scene.hr

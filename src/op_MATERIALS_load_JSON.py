@@ -10,7 +10,7 @@ class load_json_library(bpy.types.Operator, ImportHelper):
     bl_options = {"REGISTER", "UNDO"}
 
     bl_label  = "Material library from .json"
-    filter_glob = bpy.props.StringProperty(
+    filter_glob : bpy.props.StringProperty(
         default="*.json",
         options={'HIDDEN'},
     )

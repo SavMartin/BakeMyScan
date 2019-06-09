@@ -19,7 +19,7 @@ class Symmetry(base.BaseRemesher):
     keepMaterials = True
     hide_old      = True
 
-    center = bpy.props.EnumProperty(
+    center : bpy.props.EnumProperty(
         items= (
             ('bbox','bbox','bbox'),
             ('cursor','cursor','cursor'),
@@ -28,7 +28,7 @@ class Symmetry(base.BaseRemesher):
         description="center",
         default="bbox"
     )
-    axis = bpy.props.EnumProperty(
+    axis : bpy.props.EnumProperty(
         items= (
             ('-X','-X','-X'),
             ('+X','+X','+X'),
@@ -46,12 +46,12 @@ class Symmetry(base.BaseRemesher):
         hr = self.initialobject
 
         #Get the symmetry center depending on the method (maybe apply obj.matrix_world?)
-        cursor = bpy.context.scene.cursor_location
+        cursor = bpy.context.scene.cursor.location
 
         center, dim = None, None
         if self.center == "bbox":
             localBb = 0.125 * sum((Vector(b) for b in lr.bound_box), Vector())
-            center  = lr.matrix_world * localBb
+            center  = lr.matrix_world @ localBb
             if "X" in self.axis:
                 dim = lr.dimensions[0]
             elif "Y" in self.axis:
@@ -62,7 +62,7 @@ class Symmetry(base.BaseRemesher):
             center = cursor.copy()
             #Get the maximum distance between 3D cursor and bbox points
             dim = 0
-            corners = [lr.matrix_world * Vector(v) for v in lr.bound_box]
+            corners = [lr.matrix_world @ Vector(v) for v in lr.bound_box]
             #Find the distance
             for corner in corners:
                 #Get the corner projected on the desired axis
@@ -93,13 +93,13 @@ class Symmetry(base.BaseRemesher):
         if self.axis=="+Z":
             offset[2] = offset[2] - 5*dim/2
 
-        bpy.ops.mesh.primitive_cube_add(radius=5*dim / 2 , view_align=False, enter_editmode=False, location=offset)
+        bpy.ops.mesh.primitive_cube_add(size=5*dim / 2 , align='WORLD', enter_editmode=False, location=offset)
         cube = context.active_object
 
         #Make the original object active once again
         bpy.ops.object.select_all(action='DESELECT')
-        context.scene.objects.active = lr
-        lr.select = True
+        context.view_layer.objects.active= lr
+        lr.select_set(state = True , view_layer = None)
 
         #boolean cut
         bpy.ops.object.modifier_add(type='BOOLEAN')
@@ -112,8 +112,8 @@ class Symmetry(base.BaseRemesher):
 
         #Make the original object active once again
         bpy.ops.object.select_all(action='DESELECT')
-        context.scene.objects.active = lr
-        lr.select             = True
+        context.view_layer.objects.active= lr
+        lr.select_set(state = True , view_layer = None)
 
         #Add a mirror modifier
         bpy.ops.object.modifier_add(type='MIRROR')
@@ -135,8 +135,8 @@ class Symmetry(base.BaseRemesher):
         mod.mirror_object = empty
         #Make the original object active once again
         bpy.ops.object.select_all(action='DESELECT')
-        context.scene.objects.active = lr
-        lr.select             = True
+        context.view_layer.objects.active= lr
+        lr.select_set(state = True , view_layer = None)
         #Apply
         bpy.ops.object.modifier_apply(apply_as='DATA', modifier="Mirror")
         #Remove the empty
@@ -153,8 +153,8 @@ class Symmetry(base.BaseRemesher):
 
         #Make the original object active once again
         bpy.ops.object.select_all(action='DESELECT')
-        context.scene.objects.active = lr
-        lr.select              = True
+        context.view_layer.objects.active= lr
+        lr.select_set(state = True , view_layer = None)
 
         return {"FINISHED"}
 
@@ -167,7 +167,7 @@ class Relax(base.BaseRemesher):
     keepMaterials = True
     hide_old      = True
 
-    smooth = bpy.props.IntProperty(  name="smooth", description="Relaxation steps", default=2, min=0, max=150)
+    smooth : bpy.props.IntProperty(  name="smooth", description="Relaxation steps", default=2, min=0, max=150)
 
     def draw(self, context):
         self.layout.prop(self, "smooth", text="Relaxation steps")
@@ -192,8 +192,8 @@ class Relax(base.BaseRemesher):
 
         #Make the original object active once again
         bpy.ops.object.select_all(action='DESELECT')
-        context.scene.objects.active = lr
-        lr.select              = True
+        context.view_layer.objects.active = lr
+        lr.select_set(state = True)
 
         #Hide the original object?
         #hr.hide = True
@@ -210,7 +210,7 @@ class Manifold(base.BaseRemesher):
     keepMaterials = True
     hide_old      = True
 
-    manifold_method = bpy.props.EnumProperty(
+    manifold_method : bpy.props.EnumProperty(
         items= (
             ('print3d', '3D print toolbox', ''),
             ('manifold', 'Manifold', ''),

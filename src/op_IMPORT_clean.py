@@ -1,20 +1,20 @@
 import bpy
 import addon_utils
 
-class clean_object(bpy.types.Operator):
+class BAKE_OT_clean_object(bpy.types.Operator):
     bl_idname = "bakemyscan.clean_object"
     bl_label  = "Preprocess"
     bl_options = {"REGISTER", "UNDO"}
 
-    materials   = bpy.props.BoolProperty(name="materials",   description="Materials", default=True)
-    doubles     = bpy.props.BoolProperty(name="doubles",     description="Duplicate vertices", default=True)
-    loose       = bpy.props.BoolProperty(name="loose",       description="Loose geometry", default=True)
-    sharp       = bpy.props.BoolProperty(name="sharp",       description="Sharp", default=True)
-    normals     = bpy.props.BoolProperty(name="normals",     description="Normals", default=True)
-    center      = bpy.props.BoolProperty(name="center",      description="Center", default=True)
-    scale       = bpy.props.BoolProperty(name="scale",       description="Scale", default=True)
-    smooth      = bpy.props.IntProperty( name="smooth",      description="Smoothing iterations", default=0, min=0, max=50)
-    shade       = bpy.props.BoolProperty(name="shade",       description="Shade smooth", default=True)
+    materials   : bpy.props.BoolProperty(name="materials",   description="Materials", default=True)
+    doubles     : bpy.props.BoolProperty(name="doubles",     description="Duplicate vertices", default=True)
+    loose       : bpy.props.BoolProperty(name="loose",       description="Loose geometry", default=True)
+    sharp       : bpy.props.BoolProperty(name="sharp",       description="Sharp", default=True)
+    normals     : bpy.props.BoolProperty(name="normals",     description="Normals", default=True)
+    center      : bpy.props.BoolProperty(name="center",      description="Center", default=True)
+    scale       : bpy.props.BoolProperty(name="scale",       description="Scale", default=True)
+    smooth      : bpy.props.IntProperty( name="smooth",      description="Smoothing iterations", default=0, min=0, max=50)
+    shade       : bpy.props.BoolProperty(name="shade",       description="Shade smooth", default=True)
 
     @classmethod
     def poll(cls, context):
@@ -30,14 +30,14 @@ class clean_object(bpy.types.Operator):
         return context.window_manager.invoke_props_dialog(self)
 
     def draw(self, context):
-        self.layout.label("Global")
+        self.layout.label(text = "Global")
         self.layout.prop(self, "materials", text="Clean materials")
         self.layout.prop(self, "center",    text="Center the object")
         self.layout.prop(self, "scale",     text="Scale to unit box")
-        self.layout.label("Geometry")
+        self.layout.label(text = "Geometry")
         self.layout.prop(self, "doubles",   text="Remove duplicated vertices")
         self.layout.prop(self, "loose",     text="Delete loose geometry")
-        self.layout.label("Normals")
+        self.layout.label(text = "Normals")
         self.layout.prop(self, "sharp",     text="Remove sharp marks")
         self.layout.prop(self, "normals",   text="Normalize normals")
         self.layout.prop(self, "shade",    text="Shade smooth")
@@ -53,8 +53,8 @@ class clean_object(bpy.types.Operator):
 
             #Select the new mesh, and make it the active object
             bpy.ops.object.select_all(action='DESELECT')
-            obj.select = True
-            context.scene.objects.active = obj
+            obj.select_set(state = True , view_layer = None)
+            context.view_layer.objects.active= obj
 
             #Remove the material slots
             if self.materials:
@@ -118,7 +118,7 @@ class clean_object(bpy.types.Operator):
         return{'FINISHED'}
 
 def register() :
-    bpy.utils.register_class(clean_object)
+    bpy.utils.register_class(BAKE_OT_clean_object)
 
 def unregister() :
-    bpy.utils.unregister_class(clean_object)
+    bpy.utils.unregister_class(BAKE_OT_clean_object)

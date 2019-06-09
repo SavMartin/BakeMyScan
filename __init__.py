@@ -2,9 +2,9 @@ bl_info = {
     'name':     'BakeMyScan',
     'category': 'Object',
     'version': (1, 1, 0),
-    'blender': (2, 79, 0),
+    'blender': (2, 80, 0),
     "description": "Multipurpose add-on to texture, remesh and bake objects",
-    "author": "Loïc NORGEOT",
+    "author": "Loïc NORGEOT, (Port to 2.80 by Sav Martin)",
     "warning": "Materials and baking operators are only available in Cycles",
     "tracker_url": "https://github.com/norgeotloic/BakeMyScan/issues",
     "wiki_url": "http://bakemyscan.org"

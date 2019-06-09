@@ -75,21 +75,21 @@ class BakeMyScanPrefs(bpy.types.AddonPreferences):
 
     executables = {}
     #Remeshers
-    mmgs          = bpy.props.StringProperty(name="MMGS Executable", subtype='FILE_PATH', update=absolute_paths)
-    instant       = bpy.props.StringProperty(name="Instant Meshes Executable", subtype='FILE_PATH', update=absolute_paths)
-    quadriflow    = bpy.props.StringProperty(name="Quadriflow Executable", subtype='FILE_PATH', update=absolute_paths)
-    meshlabserver = bpy.props.StringProperty(name="Meshlabserver Executable", subtype='FILE_PATH', update=absolute_paths)
+    mmgs          : bpy.props.StringProperty(name="MMGS Executable", subtype='FILE_PATH', update=absolute_paths)
+    instant       : bpy.props.StringProperty(name="Instant Meshes Executable", subtype='FILE_PATH', update=absolute_paths)
+    quadriflow    : bpy.props.StringProperty(name="Quadriflow Executable", subtype='FILE_PATH', update=absolute_paths)
+    meshlabserver : bpy.props.StringProperty(name="Meshlabserver Executable", subtype='FILE_PATH', update=absolute_paths)
     #Scanning executables
-    colmap        = bpy.props.StringProperty(name="Colmap Executable", subtype='FILE_PATH', update=absolute_paths)
-    openmvsdir    = bpy.props.StringProperty(name="OpenMVS directory", subtype='DIR_PATH', update=find_openmvs_executables)
+    colmap        : bpy.props.StringProperty(name="Colmap Executable", subtype='FILE_PATH', update=absolute_paths)
+    openmvsdir    : bpy.props.StringProperty(name="OpenMVS directory", subtype='DIR_PATH', update=find_openmvs_executables)
     #OpenMVS executables
-    interfacevisualsfm = bpy.props.StringProperty(name="InterfaceVisualSFM", subtype='FILE_PATH', update=absolute_paths)
-    densifypointcloud  = bpy.props.StringProperty(name="DensifyPointCloud", subtype='FILE_PATH', update=absolute_paths)
-    reconstructmesh    = bpy.props.StringProperty(name="ReconstructMesh", subtype='FILE_PATH', update=absolute_paths)
-    texturemesh        = bpy.props.StringProperty(name="TextureMesh", subtype='FILE_PATH', update=absolute_paths)
+    interfacevisualsfm : bpy.props.StringProperty(name="InterfaceVisualSFM", subtype='FILE_PATH', update=absolute_paths)
+    densifypointcloud  : bpy.props.StringProperty(name="DensifyPointCloud", subtype='FILE_PATH', update=absolute_paths)
+    reconstructmesh    : bpy.props.StringProperty(name="ReconstructMesh", subtype='FILE_PATH', update=absolute_paths)
+    texturemesh        : bpy.props.StringProperty(name="TextureMesh", subtype='FILE_PATH', update=absolute_paths)
 
     #Texture library
-    texturepath =  bpy.props.StringProperty(description="PBR textures library", subtype='DIR_PATH', update=updatepath)
+    texturepath :  bpy.props.StringProperty(description="PBR textures library", subtype='DIR_PATH', update=updatepath)
 
 
 
@@ -97,14 +97,14 @@ class BakeMyScanPrefs(bpy.types.AddonPreferences):
         return True
     def draw(self, context):
         layout = self.layout
-        layout.label(text="PBR textures library")
+        layout.label(text = "PBR textures library")
         layout.prop(self, "texturepath")
-        layout.label(text="Remeshing tools")
+        layout.label(text = "Remeshing tools")
         layout.prop(self, "instant")
         layout.prop(self, "mmgs")
         layout.prop(self, "quadriflow")
         layout.prop(self, "meshlabserver")
-        layout.label(text="Photogrammetry")
+        layout.label(text = "Photogrammetry")
         layout.prop(self, "colmap")
         layout.prop(self, "openmvsdir")
         #Display the OpenMVS executables
@@ -119,7 +119,7 @@ def register():
     bpy.types.Scene.pbrtextures = {}
     bpy.utils.register_class(BakeMyScanPrefs)
 
-    PREFS = bpy.context.user_preferences.addons["BakeMyScan"].preferences
+    PREFS = bpy.context.preferences.addons["BakeMyScan"].preferences
 
     #Try to read in the preferences from the saved file
     path = os.path.join(bpy.utils.resource_path('USER'), "bakemyscan.config")

@@ -57,7 +57,7 @@ class remove_all_but_selected(bpy.types.Operator):
                 bpy.data.images.remove(img)
 
         #Update the scene
-        bpy.context.scene.update()
+        bpy.context.view_layer.update()
         bpy.ops.wm.redraw_timer(type='DRAW', iterations=1)
 
         return {'FINISHED'}
@@ -67,7 +67,7 @@ class remove_all_but_selected(bpy.types.Operator):
 
     def draw(self, context):
 
-        self.layout.label('Click OK to proceed')
+        self.layout.label(text = 'Click OK to proceed')
         col = self.layout.column(align=True)
 
 def register() :

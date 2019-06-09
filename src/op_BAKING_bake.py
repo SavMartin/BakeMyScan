@@ -13,7 +13,7 @@ def addImageNode(mat, nam, res):
     _image                     = bpy.data.images.new(nam, res, res)
     _imagenode                 = mat.node_tree.nodes.new(type="ShaderNodeTexImage") if not mat.node_tree.nodes.get("img") else mat.node_tree.nodes.get("img")
     _imagenode.name            = "img"
-    _imagenode.select          = True
+    _imagenode.select_set(state = True , view_layer = None)
     mat.node_tree.nodes.active = _imagenode
     _imagenode.image           = _image
     return _imagenode
@@ -64,18 +64,18 @@ class bake_cycles_textures(bpy.types.Operator):
     bl_label  = "Textures to textures"
     bl_options = {"REGISTER", "UNDO"}
 
-    resolution     = bpy.props.IntProperty( name="resolution",     description="image resolution", default=1024, min=128, max=8192)
-    cageRatio      = bpy.props.FloatProperty(name="cageRatio",     description="baking cage size as a ratio", default=0.02, min=0.00001, max=5)
-    bake_albedo    = bpy.props.BoolProperty(name="bake_albedo",    description="albedo", default=True)
-    bake_ao        = bpy.props.BoolProperty(name="bake_ao",        description="ambient occlusion", default=False)
-    bake_geometry  = bpy.props.BoolProperty(name="bake_geometry",  description="geometric normals", default=True)
-    bake_surface   = bpy.props.BoolProperty(name="bake_surface",   description="material normals", default=False)
-    bake_metallic  = bpy.props.BoolProperty(name="bake_metallic",  description="metalness", default=False)
-    bake_roughness = bpy.props.BoolProperty(name="bake_roughness", description="roughness", default=False)
-    bake_transmission = bpy.props.BoolProperty(name="bake_transmission",  description="transmission", default=False)
-    bake_subsurface = bpy.props.BoolProperty(name="bake_subsurface",  description="subsurface", default=False)
-    bake_emission  = bpy.props.BoolProperty(name="bake_emission",  description="emission", default=False)
-    bake_opacity   = bpy.props.BoolProperty(name="bake_opacity",   description="opacity", default=False)
+    resolution     : bpy.props.IntProperty( name="resolution",     description="image resolution", default=1024, min=128, max=8192)
+    cageRatio      : bpy.props.FloatProperty(name="cageRatio",     description="baking cage size as a ratio", default=0.02, min=0.00001, max=5)
+    bake_albedo    : bpy.props.BoolProperty(name="bake_albedo",    description="albedo", default=True)
+    bake_ao        : bpy.props.BoolProperty(name="bake_ao",        description="ambient occlusion", default=False)
+    bake_geometry  : bpy.props.BoolProperty(name="bake_geometry",  description="geometric normals", default=True)
+    bake_surface   : bpy.props.BoolProperty(name="bake_surface",   description="material normals", default=False)
+    bake_metallic  : bpy.props.BoolProperty(name="bake_metallic",  description="metalness", default=False)
+    bake_roughness : bpy.props.BoolProperty(name="bake_roughness", description="roughness", default=False)
+    bake_transmission : bpy.props.BoolProperty(name="bake_transmission",  description="transmission", default=False)
+    bake_subsurface : bpy.props.BoolProperty(name="bake_subsurface",  description="subsurface", default=False)
+    bake_emission  : bpy.props.BoolProperty(name="bake_emission",  description="emission", default=False)
+    bake_opacity   : bpy.props.BoolProperty(name="bake_opacity",   description="opacity", default=False)
 
     def invoke(self, context, event):
         return context.window_manager.invoke_props_dialog(self)
@@ -85,11 +85,11 @@ class bake_cycles_textures(bpy.types.Operator):
         box.prop(self, "resolution", text="Image resolution")
         box.prop(self, "cageRatio",  text="Relative cage size")
         box = self.layout.box()
-        box.label("PBR channels")
+        box.label(text = "PBR channels")
         box.prop(self, "bake_albedo",    text="Albedo")
         box.prop(self, "bake_metallic",  text="Metallic")
         box.prop(self, "bake_roughness", text="Roughness")
-        box.label("Other channels")
+        box.label(text = "Other channels")
         box.prop(self, "bake_geometry", text="Geometric normals")
         box.prop(self, "bake_surface",  text="Surface normals")
         box.prop(self, "bake_ao",       text="Ambient occlusion")
